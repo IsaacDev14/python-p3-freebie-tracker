@@ -1,1 +1,100 @@
-Generic single-database configuration.
+# Freebie Tracker
+
+A simple Python project using SQLAlchemy and SQLite to track companies giving freebies to developers.  
+The project models companies, developers, and freebies, with functionality to manage freebie giveaways and relationships between entities.
+
+---
+
+## Features
+
+- Models three entities: `Company`, `Dev` (Developer), and `Freebie`.
+- Tracks freebies given by companies to developers.
+- Supports giveaways (transferring freebies between developers).
+- Query the oldest company by founding year.
+- Relationships managed with SQLAlchemy ORM.
+- Alembic migrations for database schema management.
+- Seed script to populate the database with example data.
+
+---
+
+## Requirements
+
+- Python 3.8+
+- SQLAlchemy `<2.0` (to avoid deprecation warnings)
+- Alembic
+- SQLite (used as the database engine)
+
+Install dependencies with:
+
+```bash
+pip install sqlalchemy alembic
+```
+
+---
+
+## Setup
+
+1. **Clone the repository:**
+
+```bash
+git clone <repo-url>
+cd python-p3-freebie-tracker/lib
+```
+
+2. **Create and apply migrations:**
+
+```bash
+alembic upgrade head
+```
+
+3. **Run the seed script to populate the database with sample data:**
+
+```bash
+python seed.py
+```
+
+---
+
+## Usage
+
+After seeding the database, you can interact with the data using SQLAlchemy sessions and the methods defined in the models.
+
+### Example operations:
+
+- `Company.oldest_company(session)`  
+  Get the company with the earliest founding year.
+
+- `company.give_freebie(dev, item_name, value)`  
+  Company gives a new freebie to a developer.
+
+- `dev.received_one(item_name)`  
+  Check if a developer received a particular freebie.
+
+- `dev.give_away(new_dev, freebie)`  
+  Transfer a freebie from one developer to another.
+
+---
+
+## Project Structure
+
+```
+lib/
+├── models.py         # SQLAlchemy ORM models
+├── seed.py           # Script to clear and seed database with sample data
+├── freebies.db       # SQLite database file (generated after seeding)
+└── migrations/       # Alembic migration scripts
+```
+
+---
+
+## Notes
+
+- The project uses SQLite for simplicity and portability.
+- SQLAlchemy 2.0 introduces breaking changes; this project uses SQLAlchemy `<2.0`.
+- To silence deprecation warnings, pin the SQLAlchemy version in your requirements file.
+
+---
+
+## Author
+
+Isaac Dev
