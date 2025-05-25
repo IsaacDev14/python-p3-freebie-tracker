@@ -30,17 +30,17 @@ class Dev(Base):
     
 
 class Freebie(Base):
-    __tablename__ = "freebies"
+    __tablename__ = 'freebies'
 
     id = Column(Integer, primary_key=True)
-    item_name  = Column(String)
+    item_name = Column(String)
     value = Column(Integer)
 
     dev_id = Column(Integer, ForeignKey('devs.id'))
     company_id = Column(Integer, ForeignKey('companies.id'))
 
-    dev = relationship("Dev", backref=backref("freebies", cascade="all, delete-orphan"))
-    Company = relationship("Company", backref=backref("freebies", cascade="all, delete-orphan"))
+    dev = relationship("Dev", backref="freebies")
+    company = relationship("Company", backref="freebies")
 
-    def __ref__(self):
-        return f'<Freebie {self.item_name}(value: {self.value})>'
+    def __repr__(self):
+        return f"<Freebie {self.item_name} (${self.value})>"
