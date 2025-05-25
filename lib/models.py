@@ -1,6 +1,7 @@
 from sqlalchemy import ForeignKey, Column, Integer, String, MetaData
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import joinedload
 
 convention = {
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
@@ -44,3 +45,16 @@ class Freebie(Base):
 
     def __repr__(self):
         return f"<Freebie {self.item_name} (${self.value})>"
+
+    @property
+    def devs(self):
+        return list({freebie.dev for freebie in self.freebies})
+
+    Company.devs = devs
+
+    # Add this to Dev class
+    @property
+    def companies(self):
+        return list({freebie.company for freebie in self.freebies})
+
+    Dev.companies = companies
